@@ -1,47 +1,23 @@
-#include <SDL2/SDL.h>
 #include <iostream>
-#include <lua/sol.hpp>
+#include "./engine/Constants.h"
+#include "./engine/Game.h"
 
 int main(int argv, char** args)
 {
-    sol::state lua;
-    lua.open_libraries(sol::lib::base);
+    //Declarando classe do jogo
+    Game *game = new Game();
+
+    //Inicializando janela do jogo
+    game->Init(WINDOW_WIDTH, WINDOW_HEIGHT);
     
-    SDL_Init(SDL_INIT_EVERYTHING);
-
-    SDL_Window *window = SDL_CreateWindow("Hello SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
-
-    bool isRunning = true;
-    SDL_Event event;
-
-    while (isRunning)
-    {
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-            case SDL_QUIT:
-                isRunning = false;
-                break;
-
-            case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_ESCAPE)
-                {
-                    isRunning = false;
-                }
-            }
-        }
-
-        SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
-        SDL_RenderPresent(renderer);
+    //Game Loop
+    while(game->IsRunning()){
+        game->Input(); //Função para capturar Input
+        game->Update(); //Função para processar informações
+        game->Draw(); //Função para renderizar imagens
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    game->Destroy();
 
     return 0;
 }
