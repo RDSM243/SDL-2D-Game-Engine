@@ -1,6 +1,7 @@
 #include <iostream>
 #include "./engine/Constants.h"
 #include "./engine/Game.h"
+#include "./glm/glm.hpp"
 
 //Game Constructor
 Game::Game(){
@@ -14,10 +15,8 @@ bool Game::IsRunning() const{
     return this->isRunning;
 }
 
-float projectilePosX = 0.0f;
-float projectilePosY = 0.0f;
-float projectileVelX = 0.5f;
-float projectileVelY = 0.5f;
+glm::vec2 projectilePos = glm::vec2(0.0f, 0.0f);
+glm::vec2 projectileVel = glm::vec2(40.0f, 20.0f);
 
 void Game::Init(int width, int height){
     //Verificando se o SDL conseguiu inicializar corretamente
@@ -71,8 +70,26 @@ void Game::Input(){
 }
 
 void Game::Update(){
-    projectilePosX += projectileVelX;
-    projectilePosY += projectileVelY;
+
+    //espera até que o método update esteja no mesmo tick que o frame
+    int timeToWait = FRAME_TARGET_TIME - (SDL_GetTicks() - ticksLastFrame);
+
+    //executa SDL_Delay se o método update estiver muito rápido para processar esse frame
+    if (timeToWait > 0 && timeToWait <= FRAME_TARGET_TIME){
+        SDL_Delay(timeToWait);
+    }
+
+    //capturando a diferença em ticks do ultimo frame convertido para segundos(df:ms)  
+    float delta = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+
+    //limitando o valor máximo do delta
+    //se delta for maior que 0.05, delta = 0.05, se não, delta continua com o mesmo valor
+    delta = (delta > 0.05f) ? 0.05f : delta;
+
+    //atualiza o valor de ticks da variavel para próxima comparação
+    ticksLastFrame = SDL_GetTicks();
+
+    projectilePos += glm::vec2(projectileVel.x * delta, projectileVel.y * delta);
 }
 
 void Game::Draw(){
@@ -81,8 +98,8 @@ void Game::Draw(){
     SDL_RenderClear(renderer);
 
     SDL_Rect projectile {
-        (int) projectilePosX,
-        (int) projectilePosY,
+        (int) projectilePos.x,
+        (int) projectilePos.y,
         10,
         10
     };
