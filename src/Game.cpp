@@ -3,6 +3,9 @@
 #include "./engine/Game.h"
 #include "./glm/glm.hpp"
 
+EntityManager manager;
+SDL_Renderer* Game::renderer;
+
 //Game Constructor
 Game::Game(){
     this->isRunning = false;
@@ -15,8 +18,9 @@ bool Game::IsRunning() const{
     return this->isRunning;
 }
 
-glm::vec2 projectilePos = glm::vec2(0.0f, 0.0f);
-glm::vec2 projectileVel = glm::vec2(40.0f, 20.0f);
+void Game::LoadLevel(int levelNumber){
+    Entity& newEntity(manager.AddEntity("player"));
+}
 
 void Game::Init(int width, int height){
     //Verificando se o SDL conseguiu inicializar corretamente
@@ -89,7 +93,7 @@ void Game::Update(){
     //atualiza o valor de ticks da variavel para próxima comparação
     ticksLastFrame = SDL_GetTicks();
 
-    projectilePos += glm::vec2(projectileVel.x * delta, projectileVel.y * delta);
+    manager.Update(delta);
 }
 
 void Game::Draw(){
@@ -97,15 +101,10 @@ void Game::Draw(){
     //limpando o back buffer
     SDL_RenderClear(renderer);
 
-    SDL_Rect projectile {
-        (int) projectilePos.x,
-        (int) projectilePos.y,
-        10,
-        10
-    };
+    if(manager.HasNoEntities()){return;}
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &projectile);
+    //renderizar coisas 
+    manager.Draw();
 
     SDL_RenderPresent(renderer);
 }
