@@ -23,12 +23,12 @@ void EntityManager::Draw(){
 }
 
 Entity& EntityManager::AddEntity(std::string entityName){
-    std::unique_ptr<Entity> entity = std::make_unique<Entity>(*this, entityName);
-    entities.emplace_back(std::move(entity));
+    Entity* entity = new Entity(*this, entityName);
+    entities.emplace_back(entity);
     return *entity;
 }
 
-std::vector<std::unique_ptr<Entity>> const& EntityManager::GetEntities() const{
+std::vector<Entity*> EntityManager::GetEntities() const{
     return entities;
 }
 

@@ -1,9 +1,13 @@
 #include <iostream>
 #include "./engine/Constants.h"
 #include "./engine/Game.h"
+#include "engine/AssetManager.h"
+#include "./engine/Components/Transform2D.h"
+#include "./engine/Components/Sprite.h"
 #include "./glm/glm.hpp"
 
 EntityManager manager;
+AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 
 //Game Constructor
@@ -19,7 +23,14 @@ bool Game::IsRunning() const{
 }
 
 void Game::LoadLevel(int levelNumber){
-    Entity& newEntity(manager.AddEntity("player"));
+    //Including Assets
+
+    assetManager -> AddTexture("tank-image", "assets/images/tank-big-right.png");
+
+    //Including Entities
+    Entity& newEntity(manager.AddEntity("tank"));
+    newEntity.AddComponent<Transform2D>(100.f, 200.f, 1.f, 1.f);
+    newEntity.AddComponent<Sprite>(32, 32, "tank-image");
 }
 
 void Game::Init(int width, int height){
@@ -47,6 +58,8 @@ void Game::Init(int width, int height){
         std::cerr << "Error creating SDL renderer. " << std::endl;
         return;
     }
+
+    LoadLevel(0);
 
     isRunning = true;
 }
@@ -102,7 +115,6 @@ void Game::Draw(){
     SDL_RenderClear(renderer);
 
     if(manager.HasNoEntities()){return;}
-
     //renderizar coisas 
     manager.Draw();
 

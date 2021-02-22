@@ -11,10 +11,10 @@ class EntityManager{
         void Draw();
         bool HasNoEntities();
         Entity& AddEntity(std::string entityName);
-        std::vector<std::unique_ptr<Entity>> const& GetEntities() const;
+        std::vector<Entity*> GetEntities() const;
         uint32_t GetEntityCount();
     private:
-        std::vector<std::unique_ptr<Entity>> entities;
+        std::vector<Entity*> entities;
 };
 
 #endif
