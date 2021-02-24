@@ -20,6 +20,7 @@ class Entity{
         void Update(float delta);
         void Draw();
         void Destroy();
+        void ListAllComponents() const;
         bool GetActiveState() const;
 
         //função para adicionar qualquer tipo de componente
@@ -41,6 +42,13 @@ class Entity{
         template<typename T>
         T* GetComponent(){
             return static_cast<T*>(componentTypeMap[&typeid(T)]);
+        }
+
+        //função que verifica se a entidade possui algum componente
+        template<typename T>
+        bool HasAnyComponent() const{
+            //retorna o numero de componentes, convertido para bool isso retorna 0 ou 1(se tiver algum componente)
+            return componentTypeMap.count(&typeid(T));
         }
 
     private:

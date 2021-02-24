@@ -22,7 +22,7 @@
                 "-lSDL2_ttf",
                 "-lSDL2_mixer",
                 "-llua53",
-                "-mwindows"
+                //"-mwindows"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

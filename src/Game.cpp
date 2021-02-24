@@ -4,6 +4,7 @@
 #include "engine/AssetManager.h"
 #include "./engine/Components/Transform2D.h"
 #include "./engine/Components/Sprite.h"
+#include "./engine/Components/RigidBody2D.h"
 #include "./glm/glm.hpp"
 
 EntityManager manager;
@@ -31,6 +32,9 @@ void Game::LoadLevel(int levelNumber){
     Entity& newEntity(manager.AddEntity("tank"));
     newEntity.AddComponent<Transform2D>(100.f, 200.f, 1.f, 1.f);
     newEntity.AddComponent<Sprite>(32, 32, "tank-image");
+    newEntity.AddComponent<RigidBody2D>();
+    
+    //manager.ListAllEntities();
 }
 
 void Game::Init(int width, int height){

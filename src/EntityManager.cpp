@@ -22,6 +22,15 @@ void EntityManager::Draw(){
     }
 }
 
+void EntityManager::ListAllEntities() const{
+    uint32_t i = 0;
+    for(auto& entity : entities){
+        std::cout << "Entity[" << i << "]" << entity -> name << std::endl;
+        entity -> ListAllComponents();
+        i++;
+    }
+}
+
 Entity& EntityManager::AddEntity(std::string entityName){
     Entity* entity = new Entity(*this, entityName);
     entities.emplace_back(entity);

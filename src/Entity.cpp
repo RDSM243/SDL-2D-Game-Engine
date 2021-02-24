@@ -20,6 +20,12 @@ void Entity::Draw(){
     }
 }
 
+void Entity::ListAllComponents() const{
+    for(auto& mapElement : componentTypeMap){
+        std::cout << "   Component<" << mapElement.first -> name() << ">" << std::endl; 
+    }
+}
+
 void Entity::Destroy(){
     this->isActive = false;
 }

@@ -3,12 +3,14 @@
 
 #include "engine/Entity.h"
 #include "engine/Component.h"
+#include <iostream>
 
 class EntityManager{
     public:
         void ClearData();
         void Update(float delta);
         void Draw();
+        void ListAllEntities() const;
         bool HasNoEntities();
         Entity& AddEntity(std::string entityName);
         std::vector<Entity*> GetEntities() const;
