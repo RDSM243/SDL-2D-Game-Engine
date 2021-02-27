@@ -16,7 +16,7 @@ class Sprite : public Component{
         virtual void Update(float delta) override;
         void Draw() override;
         int width, height;
-    private:
+    protected:
         SDL_Texture* texture;
         SDL_Rect sourceRectangle;
         SDL_Rect destinationRectangle;

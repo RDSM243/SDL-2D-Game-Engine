@@ -4,12 +4,15 @@
 #include "engine/AssetManager.h"
 #include "./engine/Components/Transform2D.h"
 #include "./engine/Components/Sprite.h"
+#include "./engine/Components/AnimatedSprite.h"
+#include "./engine/Components/KeyboardControl.h"
 #include "./engine/Components/RigidBody2D.h"
 #include "./glm/glm.hpp"
 
 EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
+SDL_Event Game::event;
 
 //Game Constructor
 Game::Game(){
@@ -27,13 +30,19 @@ void Game::LoadLevel(int levelNumber){
     //Including Assets
 
     assetManager -> AddTexture("tank-image", "assets/images/tank-big-right.png");
+    assetManager -> AddTexture("chopper-image", "assets/images/chopper-spritesheet.png");
 
     //Including Entities
-    Entity& newEntity(manager.AddEntity("tank"));
-    newEntity.AddComponent<Transform2D>(100.f, 200.f, 1.f, 1.f);
-    newEntity.AddComponent<Sprite>(32, 32, "tank-image");
-    newEntity.AddComponent<RigidBody2D>();
+    Entity& tankEntity(manager.AddEntity("tank"));
+    tankEntity.AddComponent<Transform2D>(100.f, 200.f, 1.f, 1.f);
+    tankEntity.AddComponent<Sprite>(32, 32, "tank-image");
+    tankEntity.AddComponent<RigidBody2D>();
     
+    Entity& chopperEntity(manager.AddEntity("chopper"));
+    chopperEntity.AddComponent<Transform2D>(20.f, 20.f, 1.f, 1.f);
+    chopperEntity.AddComponent<AnimatedSprite>(32, 32, "chopper-image", 2, 90, true);
+    chopperEntity.AddComponent<KeyboardControl>();
+
     //manager.ListAllEntities();
 }
 
@@ -69,7 +78,6 @@ void Game::Init(int width, int height){
 }
 
 void Game::Input(){
-    SDL_Event event;
     SDL_PollEvent(&event);
     switch(event.type){
         //se for emitido um sinal de quit então para de rodar o jogo
