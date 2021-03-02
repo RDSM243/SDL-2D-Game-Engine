@@ -4,6 +4,10 @@ Sprite::Sprite(int width, int height, const char* filePath) : width(width), heig
     SetTexture(filePath);
 }
 
+Sprite::~Sprite(){
+    SDL_DestroyTexture(texture);
+}
+
 void Sprite::SetTexture(std::string assetTextureId){
     texture = Game::assetManager->GetTexture(assetTextureId);
 }

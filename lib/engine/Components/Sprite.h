@@ -11,6 +11,7 @@ class Sprite : public Component{
     public:
         SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
         Sprite(int width, int height, const char* filePath);
+        ~Sprite();
         void SetTexture(std::string assetTextureId);
         virtual void Init() override;
         virtual void Update(float delta) override;

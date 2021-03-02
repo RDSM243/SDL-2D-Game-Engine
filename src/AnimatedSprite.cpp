@@ -1,25 +1,7 @@
 #include "engine/Components/AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(int width, int height, const char* animationId, int numFrames, int animationSpeed, bool hasDirections) 
-: Sprite(width, height, animationId), numFrames(numFrames), animationSpeed(animationSpeed){
-    
-    if (hasDirections){
-        Animation* downAnimation = new Animation(0, numFrames, animationSpeed);
-        Animation* rightAnimation = new Animation(1, numFrames, animationSpeed);
-        Animation* leftAnimation = new Animation(2, numFrames, animationSpeed);
-        Animation* upAnimation = new Animation(3, numFrames, animationSpeed);
-        animations.emplace("DownAnimation", downAnimation);
-        animations.emplace("RightAnimation", rightAnimation);
-        animations.emplace("LeftAnimation", leftAnimation);
-        animations.emplace("UpAnimation", upAnimation);
-        this->animationindex = 0;
-        this->currentAnimationName = "DownAnimation";
-    }else{
-        Animation* singleAnimation = new Animation(0, numFrames, animationSpeed);
-        animations.emplace("SingleAnimation", singleAnimation);
-        this->animationindex = 0;
-        this->currentAnimationName = "SingleAnimation";
-    }
+AnimatedSprite::AnimatedSprite(int width, int height, const char* animationId) 
+: Sprite(width, height, animationId){
 
     SetTexture(animationId);
 }
@@ -34,9 +16,15 @@ void AnimatedSprite::Update(float delta){
     destinationRectangle.h = height * transform -> scale.y;
 }
 
+//Play a animation in the animations list
 void AnimatedSprite::Play(std::string animationName){
     numFrames = animations[animationName]->numFrames;
     animationindex = animations[animationName]->index;
     animationSpeed = animations[animationName]->animationSpeed;
     currentAnimationName = animationName;
+}
+
+//Add a animation in the animations list
+void AnimatedSprite::AddAnimation(const char* animationId, int animationIndex, int numFrames, int animationSpeed){
+    animations.emplace(animationId, new Animation(animationIndex, numFrames, animationSpeed));
 }

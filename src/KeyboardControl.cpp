@@ -2,7 +2,7 @@
 
 KeyboardControl::KeyboardControl(){}
 
-//Verifica se a tecla está pressionada apartir de uma string
+//Verifica se a tecla está pressionada a partir de uma string
 bool KeyboardControl::IsKeyDown(const char* key){
     if (Game::event.type == SDL_KEYDOWN){
         //pegando teclas que estão sendo pressionadas
@@ -14,7 +14,7 @@ bool KeyboardControl::IsKeyDown(const char* key){
     return false;
 }
 
-//Verifica se a tecla está pressionada apartir de uma um keycode do sdl
+//Verifica se a tecla está pressionada a partir de uma um keycode do sdl
 bool KeyboardControl::IsKeyDown(SDL_KeyCode key){
     if (Game::event.type == SDL_KEYDOWN){
         //pegando teclas que estão sendo pressionadas

@@ -11,9 +11,10 @@
 
 class AnimatedSprite : public Sprite{
     public:
-        AnimatedSprite(int width, int height, const char* animationId, int numFrames, int animationSpeed, bool hasDirections);
+        AnimatedSprite(int width, int height, const char* animationId);
         virtual void Update(float delta) override;
         void Play(std::string animationName);
+        void AddAnimation(const char* animationId, int animationIndex, int numFrames, int animationSpeed);
     private:
         int numFrames;
         int animationSpeed;

@@ -1,7 +1,8 @@
 #include <iostream>
 #include "./engine/Constants.h"
 #include "./engine/Game.h"
-#include "engine/AssetManager.h"
+#include "./engine/AssetManager.h"
+#include "./engine/Map.h"
 #include "./engine/Components/Transform2D.h"
 #include "./engine/Components/Sprite.h"
 #include "./engine/Components/AnimatedSprite.h"
@@ -13,6 +14,7 @@ EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+Map* map;
 
 //Game Constructor
 Game::Game(){
@@ -31,16 +33,20 @@ void Game::LoadLevel(int levelNumber){
 
     assetManager -> AddTexture("tank-image", "assets/images/tank-big-right.png");
     assetManager -> AddTexture("chopper-image", "assets/images/chopper-spritesheet.png");
+    assetManager -> AddTexture("jungle-tiletexture", "assets/tilemaps/jungle.png");
+
+    map = new Map("jungle-tiletexture", 2, 32);
+    map->LoadMap("assets/tilemaps/jungle.map", 25, 20);
 
     //Including Entities
-    Entity& tankEntity(manager.AddEntity("tank"));
+    Entity& tankEntity(manager.AddEntity("tank", LayerType::ENEMY_LAYER));
     tankEntity.AddComponent<Transform2D>(100.f, 200.f, 1.f, 1.f);
     tankEntity.AddComponent<Sprite>(32, 32, "tank-image");
     tankEntity.AddComponent<RigidBody2D>();
     
-    Entity& chopperEntity(manager.AddEntity("chopper"));
+    Entity& chopperEntity(manager.AddEntity("chopper", LayerType::PLAYER_LAYER));
     chopperEntity.AddComponent<Transform2D>(20.f, 20.f, 1.f, 1.f);
-    chopperEntity.AddComponent<AnimatedSprite>(32, 32, "chopper-image", 2, 90, true);
+    chopperEntity.AddComponent<AnimatedSprite>(32, 32, "chopper-image");
     chopperEntity.AddComponent<KeyboardControl>();
 
     //manager.ListAllEntities();
