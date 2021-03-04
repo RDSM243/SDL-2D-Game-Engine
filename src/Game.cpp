@@ -8,6 +8,8 @@
 #include "./engine/Components/AnimatedSprite.h"
 #include "./engine/Components/KeyboardControl.h"
 #include "./engine/Components/RigidBody2D.h"
+#include "./engine/Components/KinematicBody2D.h"
+#include "./gameplay/Components/Player.h"
 #include "./glm/glm.hpp"
 
 EntityManager manager;
@@ -29,8 +31,8 @@ bool Game::IsRunning() const{
 }
 
 void Game::LoadLevel(int levelNumber){
+    
     //Including Assets
-
     assetManager -> AddTexture("tank-image", "assets/images/tank-big-right.png");
     assetManager -> AddTexture("chopper-image", "assets/images/chopper-spritesheet.png");
     assetManager -> AddTexture("jungle-tiletexture", "assets/tilemaps/jungle.png");
@@ -48,6 +50,8 @@ void Game::LoadLevel(int levelNumber){
     chopperEntity.AddComponent<Transform2D>(20.f, 20.f, 1.f, 1.f);
     chopperEntity.AddComponent<AnimatedSprite>(32, 32, "chopper-image");
     chopperEntity.AddComponent<KeyboardControl>();
+    chopperEntity.AddComponent<KinematicBody2D>();
+    chopperEntity.AddComponent<Player>();
 
     //manager.ListAllEntities();
 }
