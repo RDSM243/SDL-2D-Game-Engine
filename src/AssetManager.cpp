@@ -1,8 +1,6 @@
 #include "engine/AssetManager.h"
 
-AssetManager::AssetManager(EntityManager* manager) : manager(manager){
-
-}
+AssetManager::AssetManager(EntityManager* manager) : manager(manager){}
 
 AssetManager::~AssetManager(){}
 

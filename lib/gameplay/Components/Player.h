@@ -6,6 +6,7 @@
 #include "engine/Components/AnimatedSprite.h"
 #include "engine/Components/KeyboardControl.h"
 #include "engine/Components/KinematicBody2D.h"
+#include "engine/Components/Camera2D.h"
 
 class Player : public Component{
     public:
@@ -17,6 +18,7 @@ class Player : public Component{
         AnimatedSprite* animatedSprite;
         KeyboardControl* keyboardControl;
         KinematicBody2D* kinematicBody2D;
+        Camera2D* camera2D;
         glm::vec2 velocity;
         const int moveSpeed = 100;
 };

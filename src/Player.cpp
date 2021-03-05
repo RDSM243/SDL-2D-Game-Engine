@@ -8,12 +8,18 @@ void Player::Init(){
     animatedSprite = owner -> GetComponent<AnimatedSprite>();
     keyboardControl = owner -> GetComponent<KeyboardControl>();
     kinematicBody2D = owner -> GetComponent<KinematicBody2D>();
+    camera2D = owner -> GetComponent<Camera2D>();
 
     //Creating Animations
     animatedSprite->AddAnimation("DownAnimation", 0, 2, 90);
     animatedSprite->AddAnimation("RightAnimation", 1, 2, 90);
     animatedSprite->AddAnimation("LeftAnimation", 2, 2, 90);
     animatedSprite->AddAnimation("UpAnimation", 3, 2, 90);
+
+    //Set the Camera to follow this entity
+    camera2D->followTarget = true;
+    //Set this camera component as the main
+    Game::mainCamera = camera2D;
 
     //Playing some animation
     animatedSprite->Play("DownAnimation");

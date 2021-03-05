@@ -11,7 +11,7 @@ class KeyboardControl : public Component{
     public:
         KeyboardControl();
         bool IsKeyDown(const char* key);
-        bool IsKeyDown(SDL_KeyCode key);
+        bool IsKeyDown(SDL_Scancode key);
 };
 
 #endif

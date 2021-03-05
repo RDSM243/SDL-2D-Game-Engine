@@ -8,6 +8,7 @@
 #include "engine/Entity.h"
 #include "engine/Component.h"
 #include "engine/EntityManager.h"
+#include "engine/Components/Camera2D.h"
 
 class AssetManager;
 
@@ -19,15 +20,18 @@ class Game{
         ~Game();
         int ticksLastFrame = 0;
         bool IsRunning() const;
-        static SDL_Renderer *renderer;
+        static SDL_Renderer* renderer;
         static AssetManager* assetManager;
         static SDL_Event event;
+        static SDL_Rect cameraRect;
+        static Camera2D* mainCamera;
         void LoadLevel(int levelNumber);
         void Init(int width, int height);
         void Input();
         void Update();
         void Draw();
         void Destroy();
+        void HandleCameraMovement();
     private:
         bool isRunning;
         SDL_Window *window;

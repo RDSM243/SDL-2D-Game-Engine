@@ -15,6 +15,8 @@
 EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
+Camera2D* Game::mainCamera = new Camera2D(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+SDL_Rect Game::cameraRect;
 SDL_Event Game::event;
 Map* map;
 
@@ -51,6 +53,7 @@ void Game::LoadLevel(int levelNumber){
     chopperEntity.AddComponent<AnimatedSprite>(32, 32, "chopper-image");
     chopperEntity.AddComponent<KeyboardControl>();
     chopperEntity.AddComponent<KinematicBody2D>();
+    chopperEntity.AddComponent<Camera2D>(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     chopperEntity.AddComponent<Player>();
 
     //manager.ListAllEntities();
@@ -129,6 +132,8 @@ void Game::Update(){
     ticksLastFrame = SDL_GetTicks();
 
     manager.Update(delta);
+
+    HandleCameraMovement();
 }
 
 void Game::Draw(){
@@ -141,6 +146,11 @@ void Game::Draw(){
     manager.Draw();
 
     SDL_RenderPresent(renderer);
+}
+
+void Game::HandleCameraMovement(){
+    cameraRect.x = mainCamera->GetCameraPosX();
+    cameraRect.y = mainCamera->GetCameraPosY();
 }
 
 void Game::Destroy(){

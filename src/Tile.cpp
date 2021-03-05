@@ -21,7 +21,9 @@ Tile::~Tile(){
 }
 
 void Tile::Update(float delta){
-
+    //Updating tile position according to the camera position
+    destinationRectangle.x = position.x - Game::cameraRect.x;
+    destinationRectangle.y = position.y - Game::cameraRect.y;
 }
 
 void Tile::Draw(){

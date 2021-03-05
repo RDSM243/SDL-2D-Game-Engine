@@ -21,8 +21,8 @@ void Sprite::Init(){
 }
 
 void Sprite::Update(float delta){
-    destinationRectangle.x = static_cast<int>(transform -> position.x);
-    destinationRectangle.y = static_cast<int>(transform -> position.y);
+    destinationRectangle.x = static_cast<int>(transform -> position.x) - Game::cameraRect.x;
+    destinationRectangle.y = static_cast<int>(transform -> position.y) - Game::cameraRect.y;
     destinationRectangle.w = width * transform -> scale.x;
     destinationRectangle.h = height * transform -> scale.y;
 }
