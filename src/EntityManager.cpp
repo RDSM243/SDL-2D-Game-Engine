@@ -1,4 +1,6 @@
 #include "engine/EntityManager.h"
+#include "engine/Collision.h"
+#include "engine/Components/BoxCollider2D.h"
 
 void EntityManager::ClearData(){
     for(auto& entity: entities){
@@ -63,6 +65,21 @@ std::vector<Entity*> EntityManager::GetEntitiesByLayer(LayerType layer) const{
         } 
     }
     return selectedEntities;
+}
+
+std::string EntityManager::CheckEntityCollisions(Entity* entity) const{
+    BoxCollider2D* entityCollider = entity->GetComponent<BoxCollider2D>();
+    for(auto& otherEntity: entities){
+        if (otherEntity->name.compare(entity->name) != 0 && otherEntity->name.compare("Tile") != 0){
+            if(otherEntity->HasComponent<BoxCollider2D>()){
+                BoxCollider2D* otherCollider = otherEntity->GetComponent<BoxCollider2D>();
+                if(Collision::CheckRectangleCollision(entityCollider->collider, otherCollider->collider)){
+                    return otherCollider->colliderTag;
+                }
+            }
+        } 
+    }
+    return "";
 }
 
 //Get the count of entities in the game.

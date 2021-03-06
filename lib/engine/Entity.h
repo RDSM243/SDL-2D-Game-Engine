@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <iostream>
 #include <vector>
 #include <memory>
 #include <string>
@@ -41,16 +42,21 @@ class Entity{
             return *newComponent;
         }
 
+        //Template to verify if the function has a specific component.
         template<typename T>
-        T* GetComponent(){
-            return static_cast<T*>(componentTypeMap[&typeid(T)]);
+        bool HasComponent() const{
+            return componentTypeMap.count(&typeid(T));
         }
 
-        //função que verifica se a entidade possui algum componente
+        //Get a specific component from the Entity.
         template<typename T>
-        bool HasAnyComponent() const{
-            //retorna o numero de componentes, convertido para bool isso retorna 0 ou 1(se tiver algum componente)
-            return componentTypeMap.count(&typeid(T));
+        T* GetComponent(){
+            //Verifying if the requested component exists
+            if (HasComponent<T>()){
+                return static_cast<T*>(componentTypeMap[&typeid(T)]);
+            }
+            std::cerr << "Can't find a component in the entity " << name << std::endl;
+            return NULL;
         }
 
     private:

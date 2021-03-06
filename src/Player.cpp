@@ -8,6 +8,7 @@ void Player::Init(){
     animatedSprite = owner -> GetComponent<AnimatedSprite>();
     keyboardControl = owner -> GetComponent<KeyboardControl>();
     kinematicBody2D = owner -> GetComponent<KinematicBody2D>();
+    boxCollider2D = owner -> GetComponent<BoxCollider2D>();
     camera2D = owner -> GetComponent<Camera2D>();
 
     //Creating Animations
@@ -18,8 +19,9 @@ void Player::Init(){
 
     //Set the Camera to follow this entity
     camera2D->followTarget = true;
+
     //Set this camera component as the main
-    Game::mainCamera = camera2D;
+    Game::SetMainCamera(camera2D);
 
     //Playing some animation
     animatedSprite->Play("DownAnimation");
@@ -49,5 +51,9 @@ void Player::Update(float delta){
     }
     
     //Moving the Player
-    kinematicBody2D->Move(velocity); 
+    kinematicBody2D->Move(velocity);
+
+    if (boxCollider2D->CheckCollisionWith("enemy")){
+        std::cout << "player is colliding with enemy" << std::endl;
+    }
 }

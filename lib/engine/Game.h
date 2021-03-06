@@ -24,7 +24,8 @@ class Game{
         static AssetManager* assetManager;
         static SDL_Event event;
         static SDL_Rect cameraRect;
-        static Camera2D* mainCamera;
+        static void SetMainCamera(Camera2D* camera);
+        static EntityManager* GetEntityManager();
         void LoadLevel(int levelNumber);
         void Init(int width, int height);
         void Input();

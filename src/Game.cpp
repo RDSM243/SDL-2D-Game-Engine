@@ -9,13 +9,14 @@
 #include "./engine/Components/KeyboardControl.h"
 #include "./engine/Components/RigidBody2D.h"
 #include "./engine/Components/KinematicBody2D.h"
+#include "./engine/Components/BoxCollider2D.h"
 #include "./gameplay/Components/Player.h"
 #include "./glm/glm.hpp"
 
 EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
-Camera2D* Game::mainCamera = new Camera2D(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+Camera2D* mainCamera = new Camera2D(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 SDL_Rect Game::cameraRect;
 SDL_Event Game::event;
 Map* map;
@@ -46,7 +47,8 @@ void Game::LoadLevel(int levelNumber){
     Entity& tankEntity(manager.AddEntity("tank", LayerType::ENEMY_LAYER));
     tankEntity.AddComponent<Transform2D>(100.f, 200.f, 1.f, 1.f);
     tankEntity.AddComponent<Sprite>(32, 32, "tank-image");
-    tankEntity.AddComponent<RigidBody2D>();
+    tankEntity.AddComponent<BoxCollider2D>("enemy", 100.f, 200.f, 32, 32);
+    tankEntity.AddComponent<RigidBody2D>(0, 10.f);
     
     Entity& chopperEntity(manager.AddEntity("chopper", LayerType::PLAYER_LAYER));
     chopperEntity.AddComponent<Transform2D>(20.f, 20.f, 1.f, 1.f);
@@ -54,6 +56,7 @@ void Game::LoadLevel(int levelNumber){
     chopperEntity.AddComponent<KeyboardControl>();
     chopperEntity.AddComponent<KinematicBody2D>();
     chopperEntity.AddComponent<Camera2D>(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    chopperEntity.AddComponent<BoxCollider2D>("player", 20.f, 20.f, 32, 32);
     chopperEntity.AddComponent<Player>();
 
     //manager.ListAllEntities();
@@ -151,6 +154,15 @@ void Game::Draw(){
 void Game::HandleCameraMovement(){
     cameraRect.x = mainCamera->GetCameraPosX();
     cameraRect.y = mainCamera->GetCameraPosY();
+}
+
+void Game::SetMainCamera(Camera2D* camera){
+    mainCamera = camera;
+}
+
+//Return the Entity Manager
+EntityManager* Game::GetEntityManager(){
+    return &manager;
 }
 
 void Game::Destroy(){
