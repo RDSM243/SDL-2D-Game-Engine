@@ -2,6 +2,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <SDL2/SDL.h>
+
 const uint32_t WINDOW_WIDTH = 800;
 const uint32_t WINDOW_HEIGHT = 600;
 
@@ -22,5 +24,7 @@ enum class LayerType {
 };
 
 const int layers_length = static_cast<int>(LayerType::LENGTH);
+
+const SDL_Color WHITE_COLOR = {255, 255, 255, 255};
 
 #endif

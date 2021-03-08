@@ -1,5 +1,5 @@
-#ifndef ANIMATION_COPONENT_H
-#define ANIMATION_COPONENT_H
+#ifndef ANIMATION_COMPONENT_H
+#define ANIMATION_COMPONENT_H
 
 #include <memory>
 

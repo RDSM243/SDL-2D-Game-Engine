@@ -10,6 +10,7 @@
 #include "./engine/Components/RigidBody2D.h"
 #include "./engine/Components/KinematicBody2D.h"
 #include "./engine/Components/BoxCollider2D.h"
+#include "./engine/Components/TextLabel.h"
 #include "./gameplay/Components/Player.h"
 #include "./glm/glm.hpp"
 
@@ -36,10 +37,18 @@ bool Game::IsRunning() const{
 void Game::LoadLevel(int levelNumber){
     
     //Including Assets
+
+    //Textures
     assetManager -> AddTexture("tank-image", "assets/images/tank-big-right.png");
     assetManager -> AddTexture("chopper-image", "assets/images/chopper-spritesheet.png");
     assetManager -> AddTexture("jungle-tiletexture", "assets/tilemaps/jungle.png");
 
+    //Fonts
+
+    assetManager ->AddFont("charriot-font", "assets/fonts/charriot.ttf", 14);
+
+    //--Including Assets--
+    
     map = new Map("jungle-tiletexture", 2, 32);
     map->LoadMap("assets/tilemaps/jungle.map", 25, 20);
 
@@ -59,6 +68,9 @@ void Game::LoadLevel(int levelNumber){
     chopperEntity.AddComponent<BoxCollider2D>("player", 20.f, 20.f, 32, 32);
     chopperEntity.AddComponent<Player>();
 
+    Entity& simpleLabel(manager.AddEntity("simpleLabel", LayerType::UI_LAYER));
+    simpleLabel.AddComponent<TextLabel>(10, 10, "Simple Test...", "charriot-font", WHITE_COLOR);
+
     //manager.ListAllEntities();
 }
 
@@ -66,6 +78,10 @@ void Game::Init(int width, int height){
     //Verificando se o SDL conseguiu inicializar corretamente
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         std::cerr << "Error Initializing SDL. " << std::endl;
+        return;
+    }
+    if(TTF_Init() != 0){
+        std::cerr << "Error Initializing SDL TTF. " << std::endl;
         return;
     }
 
